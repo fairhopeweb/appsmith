@@ -24,7 +24,10 @@ function Setup() {
   return (
     <StyledSetupContainer>
       {showLandingPage ? (
-        <LandingPage onGetStarted={() => setShowLandingPage(false)} />
+        <LandingPage
+          forSuperUser
+          onGetStarted={() => setShowLandingPage(false)}
+        />
       ) : (
         <SetupForm />
       )}

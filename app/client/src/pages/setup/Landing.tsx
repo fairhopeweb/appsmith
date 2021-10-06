@@ -10,6 +10,8 @@ import {
   WELCOME_BODY,
   WELCOME_HEADER,
 } from "constants/messages";
+import StyledFormGroup from "components/ads/formFields/FormGroup";
+import Dropdown from "components/ads/Dropdown";
 
 const LandingPageWrapper = styled.div<{ hide: boolean }>`
   width: ${(props) => props.theme.pageContentWidth}px;
@@ -67,7 +69,8 @@ const StyledImage = styled.img``;
 const getWelcomeImage = () => `${ASSETS_CDN_URL}/welcome-banner.svg`;
 
 type LandingPageProps = {
-  onGetStarted: () => void;
+  onGetStarted?: () => void;
+  forSuperUser: boolean;
 };
 
 const WELCOME_PAGE_ANIMATION_CONTAINER = "welcome-page-animation-container";
@@ -91,6 +94,46 @@ const includeFonts = () => {
   document.head.appendChild(fonts);
 };
 
+type UserFormProps = {
+  onGetStarted?: () => void;
+};
+
+function Banner() {
+  return (
+    <>
+      <StyledBannerHeader>{createMessage(WELCOME_HEADER)}</StyledBannerHeader>
+      <StyledBannerBody>{createMessage(WELCOME_BODY)}</StyledBannerBody>
+    </>
+  );
+}
+
+function SuperUserForm(props: UserFormProps) {
+  return (
+    <ActionContainer>
+      <StyledButton
+        onClick={props.onGetStarted}
+        text={createMessage(WELCOME_ACTION)}
+      />
+    </ActionContainer>
+  );
+}
+
+function NonSuperUserForm(props: UserFormProps) {
+  return (
+    <StyledFormGroup label="test">
+      <Dropdown
+        dontUsePortal
+        onSelect={onSelect}
+        options={options}
+        selected={selected}
+        showLabelOnly
+        width="260px"
+      />
+    </StyledFormGroup>
+  );
+  return null;
+}
+
 export default memo(function LandingPage(props: LandingPageProps) {
   const [fontsInjected, setFontsInjected] = useState(false);
   useEffect(() => {
@@ -108,16 +151,12 @@ export default memo(function LandingPage(props: LandingPageProps) {
     >
       <LandingPageContent>
         <StyledTextBanner>
-          <StyledBannerHeader>
-            {createMessage(WELCOME_HEADER)}
-          </StyledBannerHeader>
-          <StyledBannerBody>{createMessage(WELCOME_BODY)}</StyledBannerBody>
-          <ActionContainer>
-            <StyledButton
-              onClick={props.onGetStarted}
-              text={createMessage(WELCOME_ACTION)}
-            />
-          </ActionContainer>
+          <Banner />
+          {props.forSuperUser ? (
+            <SuperUserForm onGetStarted={props.onGetStarted} />
+          ) : (
+            <NonSuperUserForm onGetStarted={props.onGetStarted} />
+          )}
         </StyledTextBanner>
         <StyledImageBanner>
           <StyledImage src={getWelcomeImage()} />
