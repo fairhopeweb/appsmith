@@ -11,7 +11,8 @@ import {
   WELCOME_HEADER,
 } from "constants/messages";
 import StyledFormGroup from "components/ads/formFields/FormGroup";
-import Dropdown from "components/ads/Dropdown";
+import Dropdown, { DropdownOption } from "components/ads/Dropdown";
+import { roleOptions, useCaseOptions } from "./constants";
 
 const LandingPageWrapper = styled.div<{ hide: boolean }>`
   width: ${(props) => props.theme.pageContentWidth}px;
@@ -119,17 +120,43 @@ function SuperUserForm(props: UserFormProps) {
 }
 
 function NonSuperUserForm(props: UserFormProps) {
+  const [role, SetRole] = useState<string | undefined>("");
+  const [useCase] = useState<string | undefined>("");
+  const selectedRole = roleOptions.find(
+    (option) => option.value === role,
+  ) as DropdownOption;
+  const selectedUsecase = useCaseOptions.find(
+    (option) => option.value === useCase,
+  ) as DropdownOption;
   return (
-    <StyledFormGroup label="test">
-      <Dropdown
-        dontUsePortal
-        onSelect={onSelect}
-        options={options}
-        selected={selected}
-        showLabelOnly
-        width="260px"
-      />
-    </StyledFormGroup>
+    <>
+      <StyledFormGroup label="test">
+        <Dropdown
+          dontUsePortal
+          onSelect={(selected) => SetRole(selected)}
+          options={roleOptions}
+          selected={selectedRole}
+          showLabelOnly
+          width="260px"
+        />
+      </StyledFormGroup>
+      <StyledFormGroup label="test">
+        <Dropdown
+          dontUsePortal
+          onSelect={(selected) => SetRole(selected)}
+          options={useCaseOptions}
+          selected={selectedUsecase}
+          showLabelOnly
+          width="260px"
+        />
+      </StyledFormGroup>
+      <ActionContainer>
+        <StyledButton
+          onClick={props.onGetStarted}
+          text={createMessage(WELCOME_ACTION)}
+        />
+      </ActionContainer>
+    </>
   );
   return null;
 }
