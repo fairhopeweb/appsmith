@@ -1,11 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  Field,
-  InjectedFormProps,
-  WrappedFieldInputProps,
-  WrappedFieldMetaProps,
-} from "redux-form";
+import { Field, InjectedFormProps } from "redux-form";
 import {
   DropdownWrapper,
   FormBodyWrapper,
@@ -14,7 +9,6 @@ import {
   FormHeaderWrapper,
   withDropdown,
 } from "./common";
-import Dropdown from "components/ads/Dropdown";
 import StyledFormGroup from "components/ads/formFields/FormGroup";
 import {
   createMessage,
@@ -27,13 +21,11 @@ import {
   WELCOME_FORM_USE_CASE,
   WELCOME_FORM_HEADER,
 } from "constants/messages";
-import FormTextField, {
-  FormTextFieldProps,
-} from "components/ads/formFields/TextField";
+import FormTextField from "components/ads/formFields/TextField";
 import { DetailsFormValues } from "./SetupForm";
 import { ButtonWrapper } from "pages/Applications/ForkModalStyles";
 import Button, { Category, Size } from "components/ads/Button";
-import { OptionType, roleOptions, useCaseOptions } from "./constants";
+import { roleOptions, useCaseOptions } from "./constants";
 
 const DetailsFormWrapper = styled.div`
   width: 100%;

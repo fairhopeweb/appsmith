@@ -78,11 +78,6 @@ import { createOrganizationSubmitHandler } from "../organization/helpers";
 import ImportApplicationModal from "./ImportApplicationModal";
 import ImportAppViaGitModal from "pages/Editor/gitSync/ImportAppViaGitModal";
 import {
-  BUILDER_PAGE_URL,
-  extractAppIdAndPageIdFromUrl,
-  SIGNUP_SUCCESS_URL,
-} from "constants/routes";
-import {
   createMessage,
   DOCUMENTATION,
   ORGANIZATIONS_HEADING,
@@ -92,9 +87,8 @@ import {
 } from "constants/messages";
 import { ReactComponent as NoAppsFoundIcon } from "assets/svg/no-apps-icon.svg";
 
-import { getIsSafeRedirectURL, howMuchTimeBeforeText } from "utils/helpers";
+import { howMuchTimeBeforeText } from "utils/helpers";
 import { setHeaderMeta } from "actions/themeActions";
-import history from "utils/history";
 import getFeatureFlags from "utils/featureFlags";
 import { setIsImportAppViaGitModalOpen } from "actions/gitSyncActions";
 import SharedUserList from "pages/common/SharedUserList";

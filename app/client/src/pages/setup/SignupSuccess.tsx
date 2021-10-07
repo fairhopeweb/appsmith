@@ -2,11 +2,9 @@ import { firstTimeUserOnboardingInit } from "actions/onboardingActions";
 import { ReduxActionTypes } from "constants/ReduxActionConstants";
 import {
   APPLICATIONS_URL,
-  BUILDER_PAGE_URL,
   extractAppIdAndPageIdFromUrl,
   SIGNUP_SUCCESS_URL,
 } from "constants/routes";
-import { debug } from "loglevel";
 import { requiresUnauthHOC } from "pages/UserAuth/requiresAuthHOC";
 import React from "react";
 import { useCallback } from "react";
@@ -19,7 +17,7 @@ import history from "utils/history";
 import PerformanceTracker, {
   PerformanceTransactionName,
 } from "utils/PerformanceTracker";
-import Landing from "./Landing";
+import Landing from "./Welcome";
 
 export function SignupSuccess() {
   const dispatch = useDispatch();

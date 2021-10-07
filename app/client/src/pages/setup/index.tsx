@@ -1,5 +1,5 @@
 import React from "react";
-import LandingPage from "./Landing";
+import LandingPage from "./Welcome";
 import SetupForm from "./SetupForm";
 import requiresAuthHOC from "pages/UserAuth/requiresAuthHOC";
 import { useState } from "react";
