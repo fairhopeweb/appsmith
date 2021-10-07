@@ -1,20 +1,14 @@
 import React, { memo, useState } from "react";
 import styled from "styled-components";
-import Button from "components/ads/Button";
 import { ASSETS_CDN_URL } from "constants/ThirdPartyConstants";
 import { useEffect } from "react";
 import { playWelcomeAnimation } from "utils/helpers";
 import {
   createMessage,
-  WELCOME_ACTION,
   WELCOME_BODY,
-  WELCOME_FORM_NON_SUPER_USER_ROLE_DROPDOWN,
-  WELCOME_FORM_NON_SUPER_USER_USE_CASE,
   WELCOME_HEADER,
 } from "constants/messages";
-import StyledFormGroup from "components/ads/formFields/FormGroup";
-import Dropdown, { DropdownOption } from "components/ads/Dropdown";
-import { roleOptions, useCaseOptions } from "./constants";
+import NonSuperUserForm, { SuperUserForm } from "./GetStarted";
 
 const LandingPageWrapper = styled.div<{ hide: boolean }>`
   width: ${(props) => props.theme.pageContentWidth}px;
@@ -56,17 +50,6 @@ const StyledImageBanner = styled.div`
   min-width: ${(props) => props.theme.pageContentWidth * 0.45}px;
 `;
 
-const ActionContainer = styled.div`
-  margin-top: ${(props) => props.theme.spaces[15]}px;
-`;
-
-const StyledButton = styled(Button)`
-  width: 136px;
-  height: 38px;
-  font-size: 13px;
-  margin-top: ${(props) => props.theme.spaces[3]}px;
-`;
-
 const StyledImage = styled.img``;
 
 const getWelcomeImage = () => `${ASSETS_CDN_URL}/welcome-banner.svg`;
@@ -97,89 +80,12 @@ const includeFonts = () => {
   document.head.appendChild(fonts);
 };
 
-type UserFormProps = {
-  onGetStarted?: (role?: string, useCase?: string) => void;
-};
-
 function Banner() {
   return (
     <>
       <StyledBannerHeader>{createMessage(WELCOME_HEADER)}</StyledBannerHeader>
       <StyledBannerBody>{createMessage(WELCOME_BODY)}</StyledBannerBody>
     </>
-  );
-}
-
-function SuperUserForm(props: UserFormProps) {
-  return (
-    <ActionContainer>
-      <StyledButton
-        onClick={() => props.onGetStarted && props.onGetStarted()}
-        text={createMessage(WELCOME_ACTION)}
-      />
-    </ActionContainer>
-  );
-}
-
-const DROPDOWN_WIDTH = "400px";
-
-const StyledNonSuperUserForm = styled.div``;
-
-const Space = styled.div`
-  height: 20px;
-`;
-
-function NonSuperUserForm(props: UserFormProps) {
-  const [role, setRole] = useState<string | undefined>("");
-  const [useCase, setUsercase] = useState<string | undefined>("");
-  const selectedRole = roleOptions.find(
-    (option) => option.value === role,
-  ) as DropdownOption;
-  const selectedUsecase = useCaseOptions.find(
-    (option) => option.value === useCase,
-  ) as DropdownOption;
-  return (
-    <StyledNonSuperUserForm>
-      <Space />
-      <StyledFormGroup
-        label={createMessage(WELCOME_FORM_NON_SUPER_USER_ROLE_DROPDOWN)}
-      >
-        <Dropdown
-          dontUsePortal
-          fillOptions
-          onSelect={(selected) => setRole(selected)}
-          options={roleOptions}
-          placeholder="select role"
-          selected={selectedRole}
-          showLabelOnly
-          width={DROPDOWN_WIDTH}
-        />
-      </StyledFormGroup>
-      <Space />
-      <StyledFormGroup
-        label={createMessage(WELCOME_FORM_NON_SUPER_USER_USE_CASE)}
-      >
-        <Dropdown
-          dontUsePortal
-          fillOptions
-          onSelect={(selected) => setUsercase(selected)}
-          options={useCaseOptions}
-          placeholder="select"
-          selected={selectedUsecase}
-          showLabelOnly
-          width={DROPDOWN_WIDTH}
-        />
-      </StyledFormGroup>
-      <ActionContainer>
-        <StyledButton
-          disabled={!role || !useCase}
-          onClick={() =>
-            props.onGetStarted && props.onGetStarted(role, useCase)
-          }
-          text={createMessage(WELCOME_ACTION)}
-        />
-      </ActionContainer>
-    </StyledNonSuperUserForm>
   );
 }
 

@@ -7,10 +7,12 @@ import {
   WrappedFieldMetaProps,
 } from "redux-form";
 import {
+  DropdownWrapper,
   FormBodyWrapper,
   FormHeaderIndex,
   FormHeaderLabel,
   FormHeaderWrapper,
+  withDropdown,
 } from "./common";
 import Dropdown from "components/ads/Dropdown";
 import StyledFormGroup from "components/ads/formFields/FormGroup";
@@ -43,53 +45,6 @@ const DetailsFormWrapper = styled.div`
 const StyledFormBodyWrapper = styled(FormBodyWrapper)`
   width: 260px;
 `;
-
-const DROPDOWN_CLASSNAME = "setup-dropdown";
-const DropdownWrapper = styled(StyledFormGroup)`
-  && {
-    margin-bottom: 33px;
-  }
-  && .cs-text {
-    width: 100%;
-  }
-
-  .${DROPDOWN_CLASSNAME} {
-    .ads-dropdown-options-wrapper {
-      padding: 0;
-      border: 1px solid rgba(0, 0, 0, 8%);
-    }
-  }
-`;
-
-function withDropdown(options: OptionType[]) {
-  return function Fieldropdown(
-    ComponentProps: FormTextFieldProps & {
-      meta: Partial<WrappedFieldMetaProps>;
-      input: Partial<WrappedFieldInputProps>;
-    },
-  ) {
-    function onSelect(value?: string) {
-      ComponentProps.input.onChange && ComponentProps.input.onChange(value);
-      ComponentProps.input.onBlur && ComponentProps.input.onBlur(value);
-    }
-
-    const selected =
-      options.find((option) => option.value == ComponentProps.input.value) ||
-      {};
-
-    return (
-      <Dropdown
-        className={DROPDOWN_CLASSNAME}
-        dontUsePortal
-        onSelect={onSelect}
-        options={options}
-        selected={selected}
-        showLabelOnly
-        width="260px"
-      />
-    );
-  };
-}
 
 export default function DetailsForm(
   props: InjectedFormProps & DetailsFormValues & { onNext?: () => void },
