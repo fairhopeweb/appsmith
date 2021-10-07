@@ -72,7 +72,7 @@ const StyledImage = styled.img``;
 const getWelcomeImage = () => `${ASSETS_CDN_URL}/welcome-banner.svg`;
 
 type LandingPageProps = {
-  onGetStarted?: () => void;
+  onGetStarted?: (role?: string, useCase?: string) => void;
   forSuperUser: boolean;
 };
 
@@ -98,7 +98,7 @@ const includeFonts = () => {
 };
 
 type UserFormProps = {
-  onGetStarted?: () => void;
+  onGetStarted?: (role?: string, useCase?: string) => void;
 };
 
 function Banner() {
@@ -114,7 +114,7 @@ function SuperUserForm(props: UserFormProps) {
   return (
     <ActionContainer>
       <StyledButton
-        onClick={props.onGetStarted}
+        onClick={() => props.onGetStarted && props.onGetStarted()}
         text={createMessage(WELCOME_ACTION)}
       />
     </ActionContainer>
@@ -146,8 +146,10 @@ function NonSuperUserForm(props: UserFormProps) {
       >
         <Dropdown
           dontUsePortal
+          fillOptions
           onSelect={(selected) => setRole(selected)}
           options={roleOptions}
+          placeholder="select role"
           selected={selectedRole}
           showLabelOnly
           width={DROPDOWN_WIDTH}
@@ -159,8 +161,10 @@ function NonSuperUserForm(props: UserFormProps) {
       >
         <Dropdown
           dontUsePortal
+          fillOptions
           onSelect={(selected) => setUsercase(selected)}
           options={useCaseOptions}
+          placeholder="select"
           selected={selectedUsecase}
           showLabelOnly
           width={DROPDOWN_WIDTH}
@@ -168,7 +172,10 @@ function NonSuperUserForm(props: UserFormProps) {
       </StyledFormGroup>
       <ActionContainer>
         <StyledButton
-          onClick={props.onGetStarted}
+          disabled={!role || !useCase}
+          onClick={() =>
+            props.onGetStarted && props.onGetStarted(role, useCase)
+          }
           text={createMessage(WELCOME_ACTION)}
         />
       </ActionContainer>

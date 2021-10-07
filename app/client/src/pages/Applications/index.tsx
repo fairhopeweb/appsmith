@@ -957,11 +957,6 @@ type ApplicationProps = {
     hideHeaderShadow: boolean,
     showHeaderSeparator: boolean,
   ) => void;
-  enableFirstTimeUserOnboarding: (applicationId: string) => void;
-};
-
-const getIsFromSignup = () => {
-  return window.location?.pathname === SIGNUP_SUCCESS_URL;
 };
 
 class Applications extends Component<
@@ -980,10 +975,6 @@ class Applications extends Component<
   componentDidMount() {
     PerformanceTracker.stopTracking(PerformanceTransactionName.LOGIN_CLICK);
     PerformanceTracker.stopTracking(PerformanceTransactionName.SIGN_UP);
-    const isFromSignUp = getIsFromSignup();
-    if (isFromSignUp) {
-      this.redirectUsingQueryParam();
-    }
     this.props.getAllApplication();
     this.props.setHeaderMetaData(true, true);
   }
@@ -991,34 +982,6 @@ class Applications extends Component<
   componentWillUnmount() {
     this.props.setHeaderMetaData(false, false);
   }
-
-  redirectUsingQueryParam = () => {
-    const urlObject = new URL(window.location.href);
-    const redirectUrl = urlObject?.searchParams.get("redirectUrl");
-    const shouldEnableFirstTimeUserOnboarding = urlObject?.searchParams.get(
-      "enableFirstTimeUserExperience",
-    );
-    if (redirectUrl) {
-      try {
-        if (
-          window.location.pathname == SIGNUP_SUCCESS_URL &&
-          shouldEnableFirstTimeUserOnboarding === "true"
-        ) {
-          const { applicationId, pageId } = extractAppIdAndPageIdFromUrl(
-            redirectUrl,
-          );
-          if (applicationId && pageId) {
-            this.props.enableFirstTimeUserOnboarding(applicationId);
-            history.replace(BUILDER_PAGE_URL(applicationId, pageId));
-          }
-        } else if (getIsSafeRedirectURL(redirectUrl)) {
-          window.location.replace(redirectUrl);
-        }
-      } catch (e) {
-        console.error("Error handling the redirect url");
-      }
-    }
-  };
 
   public render() {
     return (
@@ -1066,20 +1029,6 @@ const mapDispatchToProps = (dispatch: any) => ({
     showHeaderSeparator: boolean,
   ) => {
     dispatch(setHeaderMeta(hideHeaderShadow, showHeaderSeparator));
-  },
-  enableFirstTimeUserOnboarding: (applicationId: string) => {
-    dispatch({
-      type: ReduxActionTypes.SET_ENABLE_FIRST_TIME_USER_ONBOARDING,
-      payload: true,
-    });
-    dispatch({
-      type: ReduxActionTypes.SET_FIRST_TIME_USER_ONBOARDING_APPLICATION_ID,
-      payload: applicationId,
-    });
-    dispatch({
-      type: ReduxActionTypes.SET_SHOW_FIRST_TIME_USER_ONBOARDING_MODAL,
-      payload: true,
-    });
   },
 });
 
