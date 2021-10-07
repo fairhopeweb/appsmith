@@ -130,7 +130,7 @@ function NonSuperUserForm(props: UserFormProps) {
   ) as DropdownOption;
   return (
     <>
-      <StyledFormGroup label="test">
+      <StyledFormGroup label="Tell us more about what you do at work?">
         <Dropdown
           dontUsePortal
           onSelect={(selected) => SetRole(selected)}
@@ -140,7 +140,7 @@ function NonSuperUserForm(props: UserFormProps) {
           width="260px"
         />
       </StyledFormGroup>
-      <StyledFormGroup label="test">
+      <StyledFormGroup label="What are you planning to use Appsmith for?">
         <Dropdown
           dontUsePortal
           onSelect={(selected) => SetRole(selected)}
@@ -158,7 +158,6 @@ function NonSuperUserForm(props: UserFormProps) {
       </ActionContainer>
     </>
   );
-  return null;
 }
 
 export default memo(function LandingPage(props: LandingPageProps) {
