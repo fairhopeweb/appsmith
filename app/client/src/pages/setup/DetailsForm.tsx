@@ -90,7 +90,7 @@ export default function DetailsForm(
         <DropdownWrapper label={createMessage(WELCOME_FORM_ROLE_DROPDOWN)}>
           <Field
             asyncControl
-            component={withDropdown(roleOptions)}
+            component={withDropdown(roleOptions, "260px")}
             name="role"
             placeholder=""
             type="text"
@@ -104,7 +104,7 @@ export default function DetailsForm(
         <DropdownWrapper label={createMessage(WELCOME_FORM_USE_CASE)}>
           <Field
             asyncControl
-            component={withDropdown(useCaseOptions)}
+            component={withDropdown(useCaseOptions, "260px")}
             name="useCase"
             placeholder=""
             type="text"

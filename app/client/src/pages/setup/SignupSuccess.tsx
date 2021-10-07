@@ -1,11 +1,13 @@
 import { firstTimeUserOnboardingInit } from "actions/onboardingActions";
 import { ReduxActionTypes } from "constants/ReduxActionConstants";
 import {
+  APPLICATIONS_URL,
   BUILDER_PAGE_URL,
   extractAppIdAndPageIdFromUrl,
   SIGNUP_SUCCESS_URL,
 } from "constants/routes";
 import { debug } from "loglevel";
+import { requiresUnauthHOC } from "pages/UserAuth/requiresAuthHOC";
 import React from "react";
 import { useCallback } from "react";
 import { useEffect } from "react";
@@ -13,12 +15,13 @@ import { useDispatch } from "react-redux";
 import { getCurrentUser } from "selectors/usersSelectors";
 import { useSelector } from "store";
 import { getIsSafeRedirectURL } from "utils/helpers";
+import history from "utils/history";
 import PerformanceTracker, {
   PerformanceTransactionName,
 } from "utils/PerformanceTracker";
 import Landing from "./Landing";
 
-export default function SignupSuccess() {
+export function SignupSuccess() {
   const dispatch = useDispatch();
   useEffect(() => {
     PerformanceTracker.stopTracking(PerformanceTransactionName.SIGN_UP);
@@ -48,6 +51,8 @@ export default function SignupSuccess() {
       } catch (e) {
         console.error("Error handling the redirect url");
       }
+    } else {
+      history.replace(APPLICATIONS_URL);
     }
   }, []);
 
@@ -63,8 +68,10 @@ export default function SignupSuccess() {
   }, []);
 
   const user = useSelector(getCurrentUser);
-  if (user?.isSuperUser) {
+  if (user?.isSuperUser || (user?.role && user?.useCase)) {
     redirectUsingQueryParam();
   }
   return <Landing forSuperUser={false} onGetStarted={onGetStarted} />;
 }
+
+export default requiresUnauthHOC(SignupSuccess);

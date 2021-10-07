@@ -17,6 +17,8 @@ export type User = {
   commentOnboardingState?: CommentsOnboardingState | null;
   photoId?: string;
   isSuperUser?: boolean;
+  role?: string;
+  useCase?: string;
 };
 
 export interface UserApplication {

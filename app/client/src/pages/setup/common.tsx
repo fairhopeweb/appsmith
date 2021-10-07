@@ -102,6 +102,7 @@ export function withDropdown(options: OptionType[], width: string) {
       <Dropdown
         className={DROPDOWN_CLASSNAME}
         dontUsePortal
+        fillOptions
         onSelect={onSelect}
         options={options}
         selected={selected}

@@ -1,5 +1,4 @@
 import Button from "components/ads/Button";
-import Dropdown, { DropdownOption } from "components/ads/Dropdown";
 import StyledFormGroup from "components/ads/formFields/FormGroup";
 import FormTextField from "components/ads/formFields/TextField";
 import {
@@ -41,8 +40,12 @@ const StyledButton = styled(Button)`
 
 type UserFormProps = {
   onGetStarted?: (role?: string, useCase?: string) => void;
+};
+
+type NonSuperUserFormData = {
   role?: string;
   useCase?: string;
+  role_name?: string;
 };
 
 export function SuperUserForm(props: UserFormProps) {
@@ -56,9 +59,9 @@ export function SuperUserForm(props: UserFormProps) {
   );
 }
 
-const DROPDOWN_WIDTH = "400px";
-
-const StyledNonSuperUserForm = styled.div``;
+const StyledNonSuperUserForm = styled.form`
+  width: 400px;
+`;
 
 const Space = styled.div`
   height: 20px;
@@ -80,7 +83,11 @@ const validate = (values: any) => {
   return errors;
 };
 
-function NonSuperUser(props: InjectedFormProps & UserFormProps) {
+const DROPDOWN_WIDTH = "400px";
+
+function NonSuperUser(
+  props: InjectedFormProps & UserFormProps & NonSuperUserFormData,
+) {
   return (
     <StyledNonSuperUserForm>
       <Space />
@@ -89,7 +96,7 @@ function NonSuperUser(props: InjectedFormProps & UserFormProps) {
       >
         <Field
           asyncControl
-          component={withDropdown(roleOptions)}
+          component={withDropdown(roleOptions, DROPDOWN_WIDTH)}
           name="role"
           placeholder=""
           type="text"
@@ -105,7 +112,7 @@ function NonSuperUser(props: InjectedFormProps & UserFormProps) {
       >
         <Field
           asyncControl
-          component={withDropdown(useCaseOptions)}
+          component={withDropdown(useCaseOptions, DROPDOWN_WIDTH)}
           name="useCase"
           placeholder=""
           type="text"
@@ -115,7 +122,11 @@ function NonSuperUser(props: InjectedFormProps & UserFormProps) {
         <StyledButton
           disabled={props.invalid}
           onClick={() =>
-            props.onGetStarted && props.onGetStarted(props.role, props.useCase)
+            props.onGetStarted &&
+            props.onGetStarted(
+              props.role !== "other" ? props.role : props.role_name,
+              props.useCase,
+            )
           }
           text={createMessage(WELCOME_ACTION)}
         />
@@ -132,7 +143,7 @@ export default connect((state: AppState) => {
     useCase: selector(state, WELCOME_FORM_USECASE_FIELD_NAME),
   };
 }, null)(
-  reduxForm<any, UserFormProps>({
+  reduxForm<NonSuperUserFormData, UserFormProps>({
     validate,
     form: WELCOME_NON_SUPER_FORM_NAME,
     touchOnBlur: true,
