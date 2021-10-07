@@ -8,6 +8,8 @@ import {
   createMessage,
   WELCOME_ACTION,
   WELCOME_BODY,
+  WELCOME_FORM_NON_SUPER_USER_ROLE_DROPDOWN,
+  WELCOME_FORM_NON_SUPER_USER_USE_CASE,
   WELCOME_HEADER,
 } from "constants/messages";
 import StyledFormGroup from "components/ads/formFields/FormGroup";
@@ -119,9 +121,17 @@ function SuperUserForm(props: UserFormProps) {
   );
 }
 
+const DROPDOWN_WIDTH = "400px";
+
+const StyledNonSuperUserForm = styled.div``;
+
+const Space = styled.div`
+  height: 20px;
+`;
+
 function NonSuperUserForm(props: UserFormProps) {
-  const [role, SetRole] = useState<string | undefined>("");
-  const [useCase] = useState<string | undefined>("");
+  const [role, setRole] = useState<string | undefined>("");
+  const [useCase, setUsercase] = useState<string | undefined>("");
   const selectedRole = roleOptions.find(
     (option) => option.value === role,
   ) as DropdownOption;
@@ -129,25 +139,31 @@ function NonSuperUserForm(props: UserFormProps) {
     (option) => option.value === useCase,
   ) as DropdownOption;
   return (
-    <>
-      <StyledFormGroup label="Tell us more about what you do at work?">
+    <StyledNonSuperUserForm>
+      <Space />
+      <StyledFormGroup
+        label={createMessage(WELCOME_FORM_NON_SUPER_USER_ROLE_DROPDOWN)}
+      >
         <Dropdown
           dontUsePortal
-          onSelect={(selected) => SetRole(selected)}
+          onSelect={(selected) => setRole(selected)}
           options={roleOptions}
           selected={selectedRole}
           showLabelOnly
-          width="260px"
+          width={DROPDOWN_WIDTH}
         />
       </StyledFormGroup>
-      <StyledFormGroup label="What are you planning to use Appsmith for?">
+      <Space />
+      <StyledFormGroup
+        label={createMessage(WELCOME_FORM_NON_SUPER_USER_USE_CASE)}
+      >
         <Dropdown
           dontUsePortal
-          onSelect={(selected) => SetRole(selected)}
+          onSelect={(selected) => setUsercase(selected)}
           options={useCaseOptions}
           selected={selectedUsecase}
           showLabelOnly
-          width="260px"
+          width={DROPDOWN_WIDTH}
         />
       </StyledFormGroup>
       <ActionContainer>
@@ -156,7 +172,7 @@ function NonSuperUserForm(props: UserFormProps) {
           text={createMessage(WELCOME_ACTION)}
         />
       </ActionContainer>
-    </>
+    </StyledNonSuperUserForm>
   );
 }
 

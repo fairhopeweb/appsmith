@@ -767,3 +767,8 @@ export const CLEAR_LOG_TOOLTIP = () => "Clear logs";
 export const ADD_JS_ACTION = () => "Add a new JS Object";
 export const ENTITY_MORE_ACTIONS_TOOLTIP = () => "More actions";
 export const NOTIFICATIONS_TOOLTIP = () => "Notifications";
+export const WELCOME_FORM_NON_SUPER_USER_ROLE_DROPDOWN = () =>
+  "What Role Do You Play?";
+export const WELCOME_FORM_NON_SUPER_USER_ROLE = () => "Role";
+export const WELCOME_FORM_NON_SUPER_USER_USE_CASE = () =>
+  "Tell Us About Your Use Case";
