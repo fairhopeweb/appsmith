@@ -21,16 +21,16 @@ import Landing from "./Welcome";
 
 export function SignupSuccess() {
   const dispatch = useDispatch();
+  const urlObject = new URL(window.location.href);
+  const redirectUrl = urlObject?.searchParams.get("redirectUrl");
+  const shouldEnableFirstTimeUserOnboarding = urlObject?.searchParams.get(
+    "enableFirstTimeUserExperience",
+  );
   useEffect(() => {
     PerformanceTracker.stopTracking(PerformanceTransactionName.SIGN_UP);
   }, []);
 
   const redirectUsingQueryParam = useCallback(() => {
-    const urlObject = new URL(window.location.href);
-    const redirectUrl = urlObject?.searchParams.get("redirectUrl");
-    const shouldEnableFirstTimeUserOnboarding = urlObject?.searchParams.get(
-      "enableFirstTimeUserExperience",
-    );
     if (redirectUrl) {
       try {
         if (
@@ -66,7 +66,11 @@ export function SignupSuccess() {
   }, []);
 
   const user = useSelector(getCurrentUser);
-  if (user?.isSuperUser || (user?.role && user?.useCase)) {
+  if (
+    user?.isSuperUser ||
+    (user?.role && user?.useCase) ||
+    shouldEnableFirstTimeUserOnboarding !== "true"
+  ) {
     redirectUsingQueryParam();
   }
   return <Landing forSuperUser={false} onGetStarted={onGetStarted} />;
