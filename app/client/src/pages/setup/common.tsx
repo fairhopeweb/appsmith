@@ -83,7 +83,7 @@ export const DropdownWrapper = styled(StyledFormGroup)`
 `;
 
 export function withDropdown(options: OptionType[], width: string) {
-  return function Fieldropdown(
+  return function DropdownField(
     ComponentProps: FormTextFieldProps & {
       meta: Partial<WrappedFieldMetaProps>;
       input: Partial<WrappedFieldInputProps>;
