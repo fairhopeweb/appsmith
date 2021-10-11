@@ -6,7 +6,7 @@ import { getCurrentUser } from "selectors/usersSelectors";
 import { ANONYMOUS_USERNAME } from "constants/userConstants";
 import { APPLICATIONS_URL, AUTH_LOGIN_URL } from "constants/routes";
 
-const requiresAuthHOC = (Component: React.ComponentType) => {
+export const requiresUnauth = (Component: React.ComponentType) => {
   function Wrapped(props: any) {
     const user = useSelector(getCurrentUser);
 
@@ -19,9 +19,7 @@ const requiresAuthHOC = (Component: React.ComponentType) => {
   return Wrapped;
 };
 
-export default requiresAuthHOC;
-
-export const requiresUnauthHOC = (Component: React.ComponentType) => {
+export const requiresAuth = (Component: React.ComponentType) => {
   return function Wrapped(props: any) {
     const user = useSelector(getCurrentUser);
 

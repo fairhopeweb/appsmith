@@ -5,7 +5,7 @@ import {
   extractAppIdAndPageIdFromUrl,
   SIGNUP_SUCCESS_URL,
 } from "constants/routes";
-import { requiresUnauthHOC } from "pages/UserAuth/requiresAuthHOC";
+import { requiresAuth } from "pages/UserAuth/requiresAuthHOC";
 import React from "react";
 import { useCallback } from "react";
 import { useEffect } from "react";
@@ -76,4 +76,4 @@ export function SignupSuccess() {
   return <Landing forSuperUser={false} onGetStarted={onGetStarted} />;
 }
 
-export default requiresUnauthHOC(SignupSuccess);
+export default requiresAuth(SignupSuccess);

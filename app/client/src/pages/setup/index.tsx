@@ -1,7 +1,7 @@
 import React from "react";
 import LandingPage from "./Welcome";
 import SetupForm from "./SetupForm";
-import requiresAuthHOC from "pages/UserAuth/requiresAuthHOC";
+import { requiresUnauth } from "pages/UserAuth/requiresAuthHOC";
 import { useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
@@ -35,4 +35,4 @@ function Setup() {
   );
 }
 
-export default requiresAuthHOC(Setup);
+export default requiresUnauth(Setup);
