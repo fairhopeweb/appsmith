@@ -120,6 +120,7 @@ function NonSuperUser(
       </DropdownWrapper>
       <ActionContainer>
         <StyledButton
+          className="t--get-started-button"
           disabled={props.invalid}
           onClick={() =>
             props.onGetStarted &&
